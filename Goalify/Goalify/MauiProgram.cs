@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using Goalify.Services;
+using Goalify.View;
 using Goalify.ViewModel;
 using Microsoft.Extensions.Logging;
 
@@ -20,6 +22,8 @@ namespace Goalify
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddSingleton<Login>();
+            builder.Services.AddSingleton<ISqlite, SqliteService>();
 
 #if DEBUG
             builder.Logging.AddDebug();

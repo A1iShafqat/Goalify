@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:Goalify.ViewModel;assembly=Goalify.ViewModel"
              x:DataType="viewModel:MainPageViewModel"
+             xmlns:studentType="clr-namespace:Goalify.Common;assembly=Goalify.Common"
              x:Class="Goalify.MainPage">
 
     <ScrollView>
@@ -19,13 +20,16 @@
                 x:Name="LabelName"
                 Text="{Binding student.Name}"
                 Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+                HeightRequest="30"
+                WidthRequest="100"
+                BackgroundColor="Red"
+                SemanticProperties.HeadingLevel="Level1" 
+                IsVisible="{Binding student.Name, Converter={StaticResource StringToBoolConverter}}"/>
 
             <Label
-                Text="{Binding abc}"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                SemanticProperties.Description="Welcome to dot net Multi platform App UI" />
 
             <Button
                 x:Name="CounterBtn"
@@ -33,6 +37,43 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+
+            <Entry
+                x:Name="NameEntry"
+                Placeholder="Enter student name"
+                Text="{Binding student.Name}" />
+
+            <Button
+                Text="Add Student" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding InsertStudentCommand}"
+                HorizontalOptions="Fill" />
+
+            <Button
+                Text="Edit Student" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding EditStudentCommand}"
+                HorizontalOptions="Fill" />
+            
+            <CollectionView ItemsSource="{Binding Students}" BackgroundColor="Red"
+                            x:Name="StudentCollection"
+                            MinimumHeightRequest="100" SelectionMode="Single"
+                            SelectionChangedCommand="{Binding StudentSelectCommand}"
+                            SelectionChangedCommandParameter="{Binding Source={x:Reference StudentCollection}, Path=SelectedItem}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="20"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="studentType:Student">
+                        <Grid ColumnDefinitions=".2*,.4*,.4*">
+                            <Label Text="{Binding Id}" Grid.Column="0"/>
+                            <Label Text="{Binding Name}" Grid.Column="1"/>
+                            <Label Text="{Binding StudentClass}" Grid.Column="2"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 

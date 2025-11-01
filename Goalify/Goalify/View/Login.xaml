@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Goalify.View.Login"
+             xmlns:viewModel="clr-namespace:Goalify.ViewModel;assembly=Goalify.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewModel:MainPageViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="Login">
+    <Grid RowDefinitions="*,auto,auto,.12*">
+        <Image Source="dotnet_bot.png"/>
+
+        <Entry Placeholder="Username"
+               Grid.Row="1"/>
+
+        <Entry Placeholder="Password"
+               IsPassword="True"
+               Grid.Row="2"/>
+
+        <Button Text="Login"
+                Grid.Row="3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Command="{Binding LoginCommand}">
+            <Button.Behaviors>
+                <toolkit:TouchBehavior LongPressCommand="{Binding LoginCommand}"/>
+            </Button.Behaviors>
+        </Button>
+
+        <!--<BoxView Color="{StaticResource Black}"
+                 Grid.RowSpan="4"
+                 Opacity="0.8"
+                 IsVisible="{Binding IsBusy}"/>
+
+        <ActivityIndicator IsRunning="True"
+                           Color="Cyan"
+                           Grid.RowSpan="4"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsVisible="{Binding IsBusy}"/>-->
+
+    </Grid>
+</ContentPage>

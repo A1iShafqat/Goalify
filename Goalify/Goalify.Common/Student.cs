@@ -1,8 +1,15 @@
-﻿namespace Goalify.Common;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
 
-public sealed class Student
+namespace Goalify.Common;
+
+public partial class Student : ObservableObject
 {
+    [AutoIncrement]
+    [PrimaryKey]
     public int Id { get; set; }
-    public required string Name { get; set; }
+
+    [ObservableProperty]
+    public string name = string.Empty;
     public string StudentClass { get; set; } = string.Empty;
 }

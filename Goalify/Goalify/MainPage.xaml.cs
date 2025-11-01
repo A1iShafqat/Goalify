@@ -1,4 +1,5 @@
-﻿using Goalify.ViewModel;
+﻿using Goalify.Common;
+using Goalify.ViewModel;
 
 namespace Goalify
 {
@@ -14,19 +15,20 @@ namespace Goalify
 
         }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await viewModel.Init();
+        }
+
         private void OnCounterClicked(object? sender, EventArgs e)
         {
+            Shell.Current.GoToAsync("LoginPage");
+        }
 
-            viewModel.GetStudentInfo();
-
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selecteditem = e.CurrentSelection as Student;
         }
     }
 }
