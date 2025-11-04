@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Goalify.Controls.PrimaryEntry"
+             xmlns:control="clr-namespace:Goalify.Controls"
+             x:DataType="control:PrimaryEntry">
+    <Border Stroke="{StaticResource Gray300}"
+                    StrokeThickness="2"
+                    Padding="10,5"
+                    StrokeShape="RoundRectangle 20"
+            x:Name="Container">
+        <Border.Shadow>
+            <Shadow Brush="Blue" Opacity="0.3"/>
+        </Border.Shadow>
+        <Grid ColumnDefinitions="auto,*,auto"
+                  ColumnSpacing="15">
+            <Label Text="{Binding LabelName}" FontSize="18" VerticalOptions="Center" TextColor="{Binding LabelColor}"/>
+            <Entry Grid.Column="1"/>
+            <Button Text="Press me" Grid.Column="2"
+                    IsVisible="{Binding ButtonVisible}"/>
+        </Grid>
+    </Border>
+</ContentView>

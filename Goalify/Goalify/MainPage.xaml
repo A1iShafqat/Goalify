@@ -4,6 +4,7 @@
              xmlns:viewModel="clr-namespace:Goalify.ViewModel;assembly=Goalify.ViewModel"
              x:DataType="viewModel:MainPageViewModel"
              xmlns:studentType="clr-namespace:Goalify.Common;assembly=Goalify.Common"
+             xmlns:controls="clr-namespace:Goalify.Controls"
              x:Class="Goalify.MainPage">
 
     <ScrollView>
@@ -43,6 +44,10 @@
                 Placeholder="Enter student name"
                 Text="{Binding student.Name}" />
 
+
+            <Entry IsVisible="{Binding Source={x:Reference NameEntry}, Path=Text, Converter={StaticResource StringToBoolConverter}}" 
+                   Placeholder="Password"/>
+
             <Button
                 Text="Add Student" 
                 SemanticProperties.Hint="Counts the number of times you click"
@@ -50,12 +55,21 @@
                 HorizontalOptions="Fill" />
 
             <Button
+                x:Name="AButton"
                 Text="Edit Student" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Command="{Binding EditStudentCommand}"
+                HorizontalOptions="Fill" 
+                Rotation="{Binding Source={x:Reference AngleSlider}, Path=Value}"/>
+
+            <Slider
+                x:Name="AngleSlider"
+                Minimum="0"
+                Maximum="360"
                 HorizontalOptions="Fill" />
-            
-            <CollectionView ItemsSource="{Binding Students}" BackgroundColor="Red"
+
+
+            <!--<CollectionView ItemsSource="{Binding Students}" BackgroundColor="Red"
                             x:Name="StudentCollection"
                             MinimumHeightRequest="100" SelectionMode="Single"
                             SelectionChangedCommand="{Binding StudentSelectCommand}"
@@ -73,8 +87,13 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 
-            </CollectionView>
+            </CollectionView>-->
+
+            <controls:PrimaryEntry LabelName="Name" LabelColor="Red"/>
+            <controls:PrimaryEntry LabelName="Password" LabelColor="Blue" ButtonVisible="{Binding Source={x:Reference NameEntry}, Path=Text, Converter={StaticResource StringToBoolConverter}}"/>
+            <controls:PrimaryEntry LabelName="string" LabelColor="Green"/>
         </VerticalStackLayout>
+        
     </ScrollView>
 
 </ContentPage>
