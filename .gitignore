@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
@@ -13,3 +13,4 @@
 /Goalify/Goalify.ViewModel/obj
 /Goalify/Goalify.ViewModels/bin/Debug/net9.0
 /Goalify/Goalify.ViewModels/obj
+/Goalify/Goalify/Goalify.csproj.user
