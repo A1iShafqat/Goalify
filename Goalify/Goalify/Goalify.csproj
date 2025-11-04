@@ -59,7 +59,13 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Goalify.Common\Goalify.Common.csproj" />
 	  <ProjectReference Include="..\Goalify.Services\Goalify.Services.csproj" />
-	  <ProjectReference Include="..\Goalify.ViewModel\Goalify.ViewModel.csproj" />
+	  <ProjectReference Include="..\Goalify.ViewModel\Goalify.ViewModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Base\BaseView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
