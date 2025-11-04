@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui;
-using Goalify.ViewModel;
+using Goalify.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace Goalify
