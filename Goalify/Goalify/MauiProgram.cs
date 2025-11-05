@@ -1,5 +1,8 @@
 using CommunityToolkit.Maui;
 using Goalify.ViewModels;
+using MauiIcons.Core;
+using MauiIcons.FontAwesome;
+using MauiIcons.Material;
 using Microsoft.Extensions.Logging;
 
 namespace Goalify
@@ -11,7 +14,10 @@ namespace Goalify
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseFontAwesomeMauiIcons()
+                .UseMaterialMauiIcons()
                 .UseMauiCommunityToolkit()
+                .UseMauiIconsCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

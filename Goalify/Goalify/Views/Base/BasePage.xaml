@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
+             x:DataType="viewmodel:BasePageViewModel"
+             x:Class="Goalify.Views.Base.BasePage"
+             x:Name="BaseContentPage"
+             Title="BaseView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ControlTemplate>
+        <ControlTemplate>
+            <Grid ColumnDefinitions="*"
+                  RowDefinitions="auto,*">
+                <VerticalStackLayout>
+                    
+                </VerticalStackLayout>
+
+                <ContentPresenter Grid.Row="1" />
+
+                <Grid Grid.RowSpan="3"
+                      BackgroundColor="Black"
+                      IsVisible="{Binding Source={x:Reference BaseContentPage}, Path=BindingContext.IsBusy}"
+                      Opacity="0.3" />
+
+                <ActivityIndicator HeightRequest="60"
+                           Grid.RowSpan="3"
+                           IsRunning="True"
+                           IsVisible="{Binding Source={x:Reference BaseContentPage}, Path=BindingContext.IsBusy}"
+                           VerticalOptions="Center"
+                           Color="White" />
+            </Grid>
+        </ControlTemplate>
+    </ContentPage.ControlTemplate>
+</ContentPage>
