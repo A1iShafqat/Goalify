@@ -17,7 +17,8 @@
             <Label Text="{Binding LabelName}" FontSize="18" VerticalOptions="Center" TextColor="{Binding LabelColor}"/>
             <Entry Grid.Column="1"/>
             <Button Text="Press me" Grid.Column="2"
-                    IsVisible="{Binding ButtonVisible}"/>
+                    IsVisible="{Binding ButtonVisible}"
+                    Command="{Binding CommandButton}"/>
         </Grid>
     </Border>
 </ContentView>

@@ -68,5 +68,12 @@ namespace Goalify.ViewModel
         {
 
         }
+
+        [RelayCommand]
+         Task DelStudentAsync(Student abc)
+        {
+            Students.FirstOrDefault(x => x.Id == abc.Id)!.IsSelected = !Students.FirstOrDefault(x => x.Id == abc.Id)!.IsSelected;
+            return Task.CompletedTask;
+        }
     }
 }

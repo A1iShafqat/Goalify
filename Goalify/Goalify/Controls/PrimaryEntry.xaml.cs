@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace Goalify.Controls;
 
 public partial class PrimaryEntry : ContentView
@@ -51,5 +53,25 @@ public partial class PrimaryEntry : ContentView
         {
             SetValue(ButtonVisibleProperty, value);
         }
+    }
+
+    public static readonly BindableProperty CommandButtonProperty =
+    BindableProperty.Create(nameof(CommandButton), typeof(ICommand), typeof(PrimaryEntry));
+
+    public ICommand CommandButton
+    {
+        get
+        {
+            return (ICommand)GetValue(CommandButtonProperty);
+        }
+        set
+        {
+            SetValue(CommandButtonProperty, value);
+        }
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+
     }
 }
