@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Goalify.Common;
+using Goalify.Common.Localization;
 using Goalify.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -21,12 +22,23 @@ namespace Goalify.ViewModel
         public MainPageViewModel(ISqlite sqlite)
         {
             this.sqliteService = sqlite;
-            sqliteService.initializeDatabase("GoalifyDB.db3");
+            sqliteService.initializeDatabase(AppConstants.DatabaseName);
             student = new Student
             {
                 Name = "",
                 StudentClass = "10th Grade"
             };
+            var userName = AppStrings.UserName;
+            var message = string.Format(AppStrings.IncorrectUser, userName);
+            StudentDTO studentDTO = new StudentDTO
+            {
+                Id = 1,
+                Name = "John Doe",
+                StudentClass = "10th Grade"
+            };
+
+            var convertedStudent = StudentExtenion.ToStudent(studentDTO);
+
         }
 
         public async Task Init()

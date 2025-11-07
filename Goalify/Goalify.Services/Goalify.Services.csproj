@@ -9,5 +9,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Goalify.Common\Goalify.Common.csproj" />
   </ItemGroup>
-
 </Project>

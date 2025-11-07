@@ -6,19 +6,20 @@
              xmlns:studentType="clr-namespace:Goalify.Common;assembly=Goalify.Common"
              xmlns:controls="clr-namespace:Goalify.Controls"
              xmlns:template="clr-namespace:Goalify.DataTemplate"
+             xmlns:locationzation="clr-namespace:Goalify.Common.Localization;assembly=Goalify.Common"
              x:Class="Goalify.MainPage">
-    <ContentView.Resources>
+    <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="Collectiontemp">
                 <template:CollectionTemplate/>
             </DataTemplate>
         </ResourceDictionary>
-    </ContentView.Resources>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
-            Spacing="25">
+            Spacing="{OnIdiom Phone=25, TV=30, Desktop=35}">
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
@@ -31,7 +32,7 @@
                 Style="{StaticResource Headline}"
                 HeightRequest="30"
                 WidthRequest="100"
-                BackgroundColor="Red"
+                BackgroundColor="{OnIdiom Phone=Red, Tablet=Green}"
                 SemanticProperties.HeadingLevel="Level1" 
                 IsVisible="{Binding student.Name, Converter={StaticResource StringToBoolConverter}}"/>
 
@@ -53,7 +54,7 @@
                 Text="{Binding student.Name}" />
 
 
-            <Entry IsVisible="{Binding Source={x:Reference NameEntry}, Path=Text, Converter={StaticResource StringToBoolConverter}}" 
+            <Entry IsVisible="{Binding Source={x:Reference NameEntry}, Path=Text, Converter={StaticResource StringToBoolConverter} }" 
                    Placeholder="Password"/>
 
             <Button

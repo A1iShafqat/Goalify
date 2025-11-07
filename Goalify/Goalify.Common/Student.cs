@@ -19,3 +19,35 @@ public partial class Student : ObservableObject
 
 }
 
+
+public class StudentDTO
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string StudentClass { get; set; } = string.Empty;
+}
+
+
+public static class  StudentExtenion
+{
+    public static Student ToStudent(StudentDTO student)
+    {
+        if (student == null)
+        {
+            return new Student();
+        }
+
+        return new Student
+        {
+            Id = student.Id,
+            Name = student.Name,
+            StudentClass = student.StudentClass,
+            IsSelected = false
+        };
+    }    
+}
+
+
+
+
+
