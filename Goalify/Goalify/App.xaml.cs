@@ -1,6 +1,4 @@
-﻿
-using Android.Content.Res;
-using Goalify.Controls;
+﻿using Goalify.Controls;
 
 namespace Goalify
 {
@@ -17,7 +15,7 @@ namespace Goalify
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(CustomEntry), (handler, view) =>
             {
 #if ANDROID
-                handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
 #if IOS
         handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;

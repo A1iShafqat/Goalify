@@ -38,7 +38,14 @@ namespace Goalify.ViewModel
             };
 
             var convertedStudent = StudentExtenion.ToStudent(studentDTO);
-
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                //Run some code on android
+            }
+            else if (DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                //Run some code on iOS
+            }
         }
 
         public async Task Init()

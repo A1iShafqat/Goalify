@@ -25,6 +25,13 @@ namespace Goalify
             builder.Services.AddSingleton<Login>();
             builder.Services.AddSingleton<ISqlite, SqliteService>();
 
+#if ANDROID
+            builder.Services.AddSingleton<INotification, Goalify.Platforms.Android.NotificationServiceAndroid>();
+#elif IOS
+            builder.Services.AddSingleton<INotification, Goalify.Platforms.iOS.NotificationServiceiOS>();
+#endif
+
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

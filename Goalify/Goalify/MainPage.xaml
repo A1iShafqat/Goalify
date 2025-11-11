@@ -18,7 +18,7 @@
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="30,0"
+            Padding="{OnPlatform Android={OnIdiom Phone=40,Tablet=50}, iOS=40}"
             Spacing="{OnIdiom Phone=25, TV=30, Desktop=35}">
             <Image
                 Source="dotnet_bot.png"

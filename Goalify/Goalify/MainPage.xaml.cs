@@ -1,5 +1,8 @@
 ﻿using Goalify.Common;
 using Goalify.ViewModel;
+#if ANDROID
+using Android.Content.Res;
+#endif
 
 namespace Goalify
 {
@@ -19,6 +22,36 @@ namespace Goalify
         {
             base.OnAppearing();
             await viewModel.Init();
+
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationAlways>();
+            }
+
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                //Run some code on android
+            }
+            else if (DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                //Run some code on iOS
+            }
+#if ANDROID
+            var status1 = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationAlways>();
+            }
+            //Run some code on android
+#elif IOS
+            var status2 = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationAlways>();
+            }
+            //Run some code on iOS
+#endif
         }
 
         private void OnCounterClicked(object? sender, EventArgs e)
