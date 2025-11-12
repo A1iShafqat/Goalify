@@ -16,6 +16,7 @@ namespace Goalify
         public void RegisterRoutes()
         {
             Routing.RegisterRoute("LoginPage", typeof(Login));
+            Routing.RegisterRoute("DetailPage", typeof(StudentDetail));
         }
     }
 }

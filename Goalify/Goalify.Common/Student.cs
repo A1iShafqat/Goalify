@@ -17,6 +17,15 @@ public partial class Student : ObservableObject
     [ObservableProperty]
     bool isSelected;
 
+    public List<address> addresses = new List<address>();
+}
+
+public class address
+{
+    public string street = string.Empty;
+    public string city = string.Empty;
+    public string state = string.Empty;
+    public string zipCode = string.Empty;
 }
 
 

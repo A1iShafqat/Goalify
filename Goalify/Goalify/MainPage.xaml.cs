@@ -43,6 +43,7 @@ namespace Goalify
             {
                 status = await Permissions.RequestAsync<Permissions.LocationAlways>();
             }
+
             //Run some code on android
 #elif IOS
             var status2 = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();

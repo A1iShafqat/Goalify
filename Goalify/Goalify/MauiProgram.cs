@@ -21,9 +21,12 @@ namespace Goalify
                 });
 
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<StudentDetail>();
+            builder.Services.AddSingleton<StudentDetailViewModel>();
             builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<Login>();
             builder.Services.AddSingleton<ISqlite, SqliteService>();
+
 
 #if ANDROID
             builder.Services.AddSingleton<INotification, Goalify.Platforms.Android.NotificationServiceAndroid>();

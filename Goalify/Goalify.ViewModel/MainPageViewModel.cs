@@ -4,6 +4,7 @@ using Goalify.Common;
 using Goalify.Common.Localization;
 using Goalify.Services;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -37,6 +38,11 @@ namespace Goalify.ViewModel
                 StudentClass = "10th Grade"
             };
 
+            Preferences.Set("UserName", "AliShafqat");
+            var userName1 = Preferences.Get("UserName", string.Empty);
+            var hasKey = Preferences.ContainsKey("UserName");
+            Preferences.Clear();
+
             var convertedStudent = StudentExtenion.ToStudent(studentDTO);
             if (DeviceInfo.Platform == DevicePlatform.Android)
             {
@@ -51,6 +57,52 @@ namespace Goalify.ViewModel
         public async Task Init()
         {
             Students = new ObservableCollection<Student>(await sqliteService.GetStudents());
+            Students.Add(new Student { Name = "anc" });
+            var a = Students.All(x => x.IsSelected == true);
+            var b = Students.Any(x=>x.IsSelected);
+            Students.Clear();
+            var students10 = Students.Take(10);
+            Students.Count(x =>x.IsSelected);
+            var student2nd = Students.ElementAt(2);
+            var studentt = Students.FirstOrDefault(x =>x.Name.Contains("Ali"));
+            var studentobj = Students.FirstOrDefault(x => x.Name.Contains("Ali"));
+            if (studentobj != null)
+            {
+                    studentobj.Name= "Ali Shafqat";
+            }
+
+            Students.Min(x => x.Id);
+            Students.Max(x => x.Id);
+            Students.Sum(x => x.Id);
+            var bigIdStudents = Students.Where(x => x.Id > 5).ToList();
+            var s = Students.Select(x => x.Name).ToList();
+
+            students.FirstOrDefault(x => x.addresses.ForEach( address =>
+            {
+                address.city = "New City";
+
+            })
+            return true
+            );
+
+            students.FirstOrDefault(student =>
+            {
+                student.addresses.ForEach(address =>
+                {
+                    address.city = "New City";
+                });
+                return true;
+            });
+
+
+            foreach (var item in Students)
+            {
+                
+            }
+
+
+
+
         }
 
 
@@ -76,7 +128,7 @@ namespace Goalify.ViewModel
 
 
         [RelayCommand]
-        async Task EditStudent()
+        void EditStudent()
         {
             Students.FirstOrDefault()!.Name = "ABCDEFG";
         }
@@ -85,8 +137,15 @@ namespace Goalify.ViewModel
         [RelayCommand]
         void StudentSelect(Student student)
         {
+            Students.Contains(student);
 
+            Shell.Current.GoToAsync("DetailPage", new Dictionary<string, object> {
+                { "student", student.Name },
+                { "id", student.Id },
+                { "class", student.StudentClass },
+            });
         }
+
 
         [RelayCommand]
          Task DelStudentAsync(Student abc)
