@@ -3,6 +3,7 @@ using Goalify.Services;
 using Goalify.View;
 using Goalify.ViewModel;
 using Microsoft.Extensions.Logging;
+using Refit;
 
 namespace Goalify
 {
@@ -20,12 +21,15 @@ namespace Goalify
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddRefitClient< GetAPIService>().ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.restful-api.dev"));
+
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<StudentDetail>();
             builder.Services.AddSingleton<StudentDetailViewModel>();
             builder.Services.AddSingleton<MainPageViewModel>();
             builder.Services.AddSingleton<Login>();
             builder.Services.AddSingleton<ISqlite, SqliteService>();
+            
 
 
 #if ANDROID

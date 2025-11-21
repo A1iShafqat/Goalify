@@ -6,7 +6,7 @@ using Android.Content.Res;
 
 namespace Goalify
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
         int count = 0;
         private readonly MainPageViewModel viewModel;

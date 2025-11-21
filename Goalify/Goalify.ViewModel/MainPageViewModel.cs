@@ -2,9 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using Goalify.Common;
 using Goalify.Common.Localization;
+using Goalify.Common.Models;
 using Goalify.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,6 +18,7 @@ namespace Goalify.ViewModel
     public partial class MainPageViewModel : BaseViewModel
     {
         readonly ISqlite sqliteService;
+        readonly GetAPIService apiService;
         public Student student { get; set; }
 
         public bool LabelVisible { get; set; }
@@ -20,10 +26,11 @@ namespace Goalify.ViewModel
         [ObservableProperty]
         ObservableCollection<Student> students;
 
-        public MainPageViewModel(ISqlite sqlite)
+        public MainPageViewModel(ISqlite sqlite, GetAPIService getAPIService)
         {
             this.sqliteService = sqlite;
             sqliteService.initializeDatabase(AppConstants.DatabaseName);
+            apiService = getAPIService;
             student = new Student
             {
                 Name = "",
@@ -57,18 +64,55 @@ namespace Goalify.ViewModel
         public async Task Init()
         {
             Students = new ObservableCollection<Student>(await sqliteService.GetStudents());
+
+            var httpClient = new HttpClient();
+            var token = await SecureStorage.GetAsync("token");
+            var header = new AuthenticationHeaderValue("Bearer", token);
+            httpClient.DefaultRequestHeaders.Authorization = header;
+            var json = new PostAgrs {
+            name = "abc",
+            data = new PostData
+            {
+                CPUmodel = "edfg",
+                Harddisksize = "100",
+                price = 200,
+                year = 2023
+            }
+           };
+
+            var jsonString = JsonSerializer.Serialize(json);
+
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var uri = new Uri("https://api.restful-api.dev/objects");
+            HttpResponseMessage httpResponse = await httpClient.PostAsync(uri, content);
+            
+            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                //var data = JsonSerializer.Deserialize<List<Root>>(content);
+
+                //var count = data.Count;
+
+
+            }
+
+
+        }
+
+        public void LinqAndDataFilteration()
+        {
             Students.Add(new Student { Name = "anc" });
             var a = Students.All(x => x.IsSelected == true);
-            var b = Students.Any(x=>x.IsSelected);
-            Students.Clear();
+            var b = Students.Any(x => x.IsSelected);
+            //Students.Clear();
             var students10 = Students.Take(10);
-            Students.Count(x =>x.IsSelected);
-            var student2nd = Students.ElementAt(2);
-            var studentt = Students.FirstOrDefault(x =>x.Name.Contains("Ali"));
+            Students.Count(x => x.IsSelected);
+            var student2nd = Students.ElementAt(0);
+            var studentt = Students.FirstOrDefault(x => x.Name.Contains("Ali"));
             var studentobj = Students.FirstOrDefault(x => x.Name.Contains("Ali"));
             if (studentobj != null)
             {
-                    studentobj.Name= "Ali Shafqat";
+                studentobj.Name = "Ali Shafqat";
             }
 
             Students.Min(x => x.Id);
@@ -77,13 +121,20 @@ namespace Goalify.ViewModel
             var bigIdStudents = Students.Where(x => x.Id > 5).ToList();
             var s = Students.Select(x => x.Name).ToList();
 
-            students.FirstOrDefault(x => x.addresses.ForEach( address =>
-            {
-                address.city = "New City";
+            Students.FirstOrDefault(x => {
+                x.addresses.ForEach(address =>
+                {
+                    address.city = "New City";
 
-            })
-            return true
-            );
+                });
+                return true;
+            });
+
+
+            foreach (var item in Students)
+            {
+
+            }
 
             students.FirstOrDefault(student =>
             {
@@ -97,12 +148,8 @@ namespace Goalify.ViewModel
 
             foreach (var item in Students)
             {
-                
+
             }
-
-
-
-
         }
 
 
@@ -153,5 +200,9 @@ namespace Goalify.ViewModel
             Students.FirstOrDefault(x => x.Id == abc.Id)!.IsSelected = !Students.FirstOrDefault(x => x.Id == abc.Id)!.IsSelected;
             return Task.CompletedTask;
         }
+
     }
+
+
+
 }

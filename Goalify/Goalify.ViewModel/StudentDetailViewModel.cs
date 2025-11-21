@@ -8,6 +8,7 @@ namespace Goalify.ViewModel
         string name;
         public StudentDetailViewModel()
         {
+            
         }
 
         override public void ApplyQueryAttributes(IDictionary<string, object> query)
