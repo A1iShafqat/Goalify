@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Goalify.Views.Activities.AddActivityPage"
+             Title="AddActivityPage">
+    <Grid RowDefinitions="30,50,auto,40,*" Padding="20"
+                         RowSpacing="10">
+        
+        <Label Text="Add Activity"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               FontSize="16"/>
+
+        <Entry Placeholder="Activity Name"
+               Grid.Row="1"/>
+        
+        <Editor Placeholder="Description"
+                AutoSize="TextChanges"
+                MaximumHeightRequest="120"
+                Grid.Row="2"/>
+
+        <Button Text="Select Icon"
+                Grid.Row="3"/>
+
+        <Button Text="Save Activity"
+                Command="SaveActivityCommand"
+                VerticalOptions="End"
+                Grid.Row="4"/>
+
+    </Grid>
+</ContentPage>
