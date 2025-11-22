@@ -14,3 +14,7 @@
 /Goalify/Goalify.ViewModels/bin/Debug/net9.0
 /Goalify/Goalify.ViewModels/obj
 /Goalify/Goalify/Goalify.csproj.user
+/Goalify/Goalify/bin/Release/net9.0-android
+/Goalify/Goalify.Common/bin/Release/net9.0
+/Goalify/Goalify.Services/bin/Release/net9.0
+/Goalify/Goalify.ViewModels/bin/Release/net9.0
