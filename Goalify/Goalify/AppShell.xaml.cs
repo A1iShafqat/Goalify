@@ -1,4 +1,5 @@
 using Goalify.Views.Activities;
+using Goalify.Views.Test;
 
 namespace Goalify
 {
@@ -14,6 +15,7 @@ namespace Goalify
         internal void RegisterRoutes()
         {
             Routing.RegisterRoute(nameof(AddActivityPage), typeof(AddActivityPage));
+            Routing.RegisterRoute(nameof(TestPage), typeof(TestPage));
         }
     }
 }
