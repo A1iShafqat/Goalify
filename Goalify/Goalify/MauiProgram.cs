@@ -1,5 +1,8 @@
 using CommunityToolkit.Maui;
 using Goalify.ViewModels;
+using Goalify.Views;
+using Goalify.Views.Activities;
+using Goalify.Views.Test;
 using MauiIcons.Core;
 using MauiIcons.FontAwesome;
 using MauiIcons.Material;
@@ -27,6 +30,14 @@ namespace Goalify
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddTransient<AddActivityPage>();
+            builder.Services.AddSingleton<ActivityViewModel>();
+            builder.Services.AddSingleton<HomePage>();
+            builder.Services.AddSingleton<HomeViewModel>();
+            builder.Services.AddSingleton<TestPage>();
+            builder.Services.AddSingleton<TestViewModel>();
+
 
             return builder.Build();
         }
