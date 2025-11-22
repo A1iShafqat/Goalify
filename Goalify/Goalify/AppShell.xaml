@@ -25,7 +25,7 @@
         <ShellContent Title="Activities"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=RectangleList, FontOverride=True}"
                       ContentTemplate="{DataTemplate views:ActivitiesPage}" />
-            <ShellContent Title="Dogs"
+            <ShellContent Title="Profiles"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=User, FontOverride=False}"
                       ContentTemplate="{DataTemplate views:ProfilePage}" />
         </TabBar>
