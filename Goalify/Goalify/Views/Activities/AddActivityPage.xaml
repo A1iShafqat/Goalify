@@ -2,25 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Goalify.Views.Activities.AddActivityPage"
+             xmlns:model="clr-namespace:Goalify.Common.Models;assembly=Goalify.Common"
+             xmlns:viewModel="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
+             x:DataType="viewModel:ActivityViewModel"
              Title="AddActivityPage">
     <Grid RowDefinitions="30,50,auto,40,*" Padding="20"
                          RowSpacing="10">
-        
+
         <Label Text="Add Activity"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                FontSize="16"/>
 
         <Entry Placeholder="Activity Name"
+               Text="{Binding Activity.Name}"
                Grid.Row="1"/>
-        
+
         <Editor Placeholder="Description"
                 AutoSize="TextChanges"
                 MaximumHeightRequest="120"
+                Text="{Binding Activity.Description}"
                 Grid.Row="2"/>
 
         <Button Text="Select Icon"
                 Grid.Row="3"/>
+
+        <Image HeightRequest="30"
+               WidthRequest="30"
+               Grid.Row="4"
+               VerticalOptions="Start"
+               Source="{Binding CachedImage}"/>
 
         <Button Text="Save Activity"
                 Command="SaveActivityCommand"
