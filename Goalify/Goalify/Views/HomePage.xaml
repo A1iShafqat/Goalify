@@ -6,5 +6,12 @@
              xmlns:models="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="viewModel:HomeViewModel">
+    <ContentPage.Content>
+        <VerticalStackLayout Padding="20">
+    <Button Text="Test Page"
+            Command="{Binding TestPageCommand}"/>
+        </VerticalStackLayout>
+
+    </ContentPage.Content>
 
 </ContentPage>

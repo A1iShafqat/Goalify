@@ -25,7 +25,8 @@
                 Grid.Row="2"/>
 
         <Button Text="Select Icon"
-                Grid.Row="3"/>
+                Grid.Row="3"
+                Command="{Binding SelectIconCommand}"/>
 
         <Image HeightRequest="30"
                WidthRequest="30"
@@ -34,7 +35,7 @@
                Source="{Binding CachedImage}"/>
 
         <Button Text="Save Activity"
-                Command="SaveActivityCommand"
+                Command="{Binding SaveActivityCommand}"
                 VerticalOptions="End"
                 Grid.Row="4"/>
 

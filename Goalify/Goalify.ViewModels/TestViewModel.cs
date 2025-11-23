@@ -1,8 +1,12 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MauiIcons.Material;
+using Microsoft.Maui.Graphics.Platform;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
-using CommunityToolkit.Mvvm.ComponentModel;
-using MauiIcons.Material;
 
 namespace Goalify.ViewModels
 {
@@ -79,6 +83,54 @@ namespace Goalify.ViewModels
 
             _currentPage++;
             IsLoading = false;
+        }
+
+        [RelayCommand]
+        async Task IconSelectionChangeAsync(IconItem iconItem)
+        {
+            var snackbar = Snackbar.Make(
+                message: iconItem.Icon.ToString(),
+                duration: TimeSpan.FromSeconds(4),
+                visualOptions: new SnackbarOptions
+                {
+                    BackgroundColor = Colors.Black,
+                    TextColor = Colors.White,
+                    ActionButtonTextColor = Colors.Yellow,
+                    CornerRadius = new CornerRadius(8),
+                    CharacterSpacing = 0.2
+                }
+            );
+
+            await snackbar.Show();
+
+        }
+
+        [RelayCommand]
+        async Task SendSelectedIconAsync()
+        {
+            if(SelectedIcon is null)
+            {
+                var snackbar = Snackbar.Make(
+                    message: "Icon not selected",
+                    duration: TimeSpan.FromSeconds(4),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Black,
+                        TextColor = Colors.White,
+                        ActionButtonTextColor = Colors.Yellow,
+                        CornerRadius = new CornerRadius(8),
+                        CharacterSpacing = 0.2
+                    }
+                );
+                await snackbar.Show();
+                return;
+            }
+
+            await Shell.Current.GoToAsync("..", new Dictionary<string, object>
+            {
+                {nameof(SelectedIcon), SelectedIcon  }
+            });
+
         }
     }
 
