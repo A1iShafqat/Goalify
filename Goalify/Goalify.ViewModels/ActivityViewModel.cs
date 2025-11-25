@@ -54,7 +54,8 @@ namespace Goalify.ViewModels
         async Task SaveActivityAsync()
         {
             //Activity.Icon 
-
+            var glyph = Abc.GetGlyph(iconItem.Icon);
+            Activity.Icon = Abc.RenderGlyphToBytes(glyph);
             await dbService.AddAsync(Activity);
             // Save activity logic here
             // await Shell.Current.GoToAsync("..");

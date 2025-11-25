@@ -1,12 +1,15 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
+using System.Reflection;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiIcons.Material;
+using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Graphics.Platform;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Reflection;
+using SkiaSharp;
 
 namespace Goalify.ViewModels
 {
@@ -108,7 +111,7 @@ namespace Goalify.ViewModels
         [RelayCommand]
         async Task SendSelectedIconAsync()
         {
-            if(SelectedIcon is null)
+            if (SelectedIcon is null)
             {
                 var snackbar = Snackbar.Make(
                     message: "Icon not selected",
@@ -168,4 +171,43 @@ public static class Abc
         var description = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
         return description?.Description ?? string.Empty;
     }
+
+    public static byte[] RenderGlyphToBytes(string glyph, int size = 40, SKColor? color = null)
+    {
+        color ??= SKColors.Black;
+
+        using var bitmap = new SKBitmap(size, size);
+        using var canvas = new SKCanvas(bitmap);
+        canvas.Clear(SKColors.Transparent);
+
+        // Create font and paint
+        using var typeface = SKTypeface.FromFamilyName("MaterialIcons");
+        using var font = new SKFont(typeface, size);
+        using var paint = new SKPaint
+        {
+            Color = color.Value,
+            IsAntialias = true
+        };
+
+        // Measure text width
+        float textWidth = font.MeasureText(glyph);
+
+        // Get font metrics from SKFont
+        var metrics = font.Metrics;
+        float textHeight = metrics.Descent - metrics.Ascent;
+
+        // Calculate position to center text
+        float x = (size - textWidth) / 2;
+        float y = (size + textHeight) / 2 - metrics.Descent;
+
+        // Draw text
+        canvas.DrawText(glyph, x, y, font, paint);
+        canvas.Flush();
+
+        // Convert to PNG bytes
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        return data.ToArray();
+    }
+
 }
