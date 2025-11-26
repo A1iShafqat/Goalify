@@ -34,7 +34,7 @@ namespace Goalify.ViewModels
         {
             Icons = new ObservableCollection<IconItem>();
             _allIcons = Abc.GetAllEnumValues<MaterialIcons>();  // Get all icons from enum
-            LoadMoreIcons();
+            _ = LoadMoreIcons();
         }
 
         public override Task InitAsync()
@@ -141,7 +141,7 @@ namespace Goalify.ViewModels
     public class IconItem
     {
         public MaterialIcons Icon { get; set; }
-        public ImageSource CachedImage { get; set; }
+        public ImageSource? CachedImage { get; set; }
 
         public static FontImageSource CreateFontImage(MaterialIcons icon)
         {

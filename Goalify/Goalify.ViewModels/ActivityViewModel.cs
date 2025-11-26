@@ -31,11 +31,9 @@ namespace Goalify.ViewModels
 
         public override void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            
-            if (query.ContainsKey("SelectedIcon"))
+            if (query.TryGetValue("SelectedIcon", out var selectedIcon))
             {
-                iconItem = query["SelectedIcon"] as IconItem;
-                if (iconItem != null)
+                if (selectedIcon is IconItem iconItem)
                 {
                     CachedImage = iconItem.CachedImage;
                 }

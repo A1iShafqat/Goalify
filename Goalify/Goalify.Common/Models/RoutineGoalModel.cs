@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Goalify.Common.Models;
 
-public class ActivityGoalModel
+public class RoutineGoalModel
 {
     [PrimaryKey, AutoIncrement]
     public long GoalId { get; set; }
@@ -11,5 +11,5 @@ public class ActivityGoalModel
     public TimeOnly Reminder { get; set; }
     public bool IsDaily { get; set; }
     public List<DayOfWeek>? DaysOfWeek { get; set; }
-    public GoalRepitationModel? GoalRepitation { get; set; }
+    public RoutineRepitationModel? RoutineRepitation { get; set; }
 }

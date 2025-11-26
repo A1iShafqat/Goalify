@@ -9,11 +9,11 @@
     
     <Grid RowDefinitions="0.90*, 40">
         <CollectionView ItemsSource="{Binding Icons}"
-                            SelectionMode="Single"
-                            RemainingItemsThreshold="10"
-                            RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached"
-                            ItemSizingStrategy="MeasureFirstItem"
-                            VerticalScrollBarVisibility="Always"
+                        SelectionMode="Single"
+                        RemainingItemsThreshold="10"
+                        RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached"
+                        ItemSizingStrategy="MeasureFirstItem"
+                        VerticalScrollBarVisibility="Always"
                         SelectedItem="{Binding SelectedIcon}"
                         SelectionChangedCommand="{Binding IconSelectionChangeCommand}"
                         SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
@@ -40,6 +40,5 @@
                 Padding="4"
                 Command="{Binding SendSelectedIconCommand}"/>
 
-        
     </Grid>
 </ContentPage>
