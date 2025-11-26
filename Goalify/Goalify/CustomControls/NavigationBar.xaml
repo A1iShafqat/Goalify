@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Goalify.CustomControls.NavigationBar">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Border"
+                   x:Key="BubbleBorder">
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource CountBubbleGreen}" />
+                <Setter Property="StrokeShape"
+                        Value="RoundRectangle 50" />
+                <Setter Property="Padding"
+                        Value="3,2" />
+                <Setter Property="WidthRequest"
+                        Value="28" />
+                <Setter Property="HeightRequest"
+                        Value="28" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="50"
+          VerticalOptions="Center"
+          ColumnDefinitions="32, *,32,32"
+          x:Name="Container"
+          Padding="16,8"
+          ColumnSpacing="14">
+
+        <BoxView Color="Transparent"
+                         VerticalOptions="Center">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LeftIconCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <ImageButton Source="{Binding LeftButtonSource}"
+                             IsVisible="{Binding LeftButtonSource ,Converter={StaticResource IsStringNullOrEmptyToBoolReverseConverter}}"
+                             VerticalOptions="Center"
+                             Padding="2,1"
+                             Command="{Binding LeftIconCommand}"
+                             Clicked="ImageButton_Clicked" />
+
+        <Label Text="{Binding Title}"
+                   FontSize="20"
+                   Grid.Column="1"
+                   HorizontalOptions="Center"
+                   VerticalTextAlignment="Center"
+                   MaxLines="1" />
+
+        <BoxView Color="Transparent"
+                         Grid.Column="2"
+                         VerticalOptions="Center">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding RightSecondaryIconCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+
+        <ImageButton Grid.Column="2"
+                             Source="{Binding RightButtonSecondarySource}"
+                             IsVisible="{Binding CountLabel, ConverterParameter={StaticResource IntToBoolConverter}}"
+                             Command="{Binding RightSecondaryIconCommand}"
+                             HorizontalOptions="Center"
+                             Padding="2" />
+
+        <Border Style="{StaticResource BubbleBorder}"
+                        Padding="0"
+                        Grid.Column="2"
+                        BackgroundColor="Red"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding CountLabel, ConverterParameter={StaticResource IntToBoolConverter}}"
+                        HeightRequest="22"
+                        WidthRequest="22"
+                        Margin="25,30,0,0"
+                        Opacity="1">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding RightSecondaryIconCommand}" />
+            </Border.GestureRecognizers>
+            <Label Text="{Binding CountLabel}"
+                           TextColor="{StaticResource White}"
+                           FontSize="12"
+                           FontAttributes="Bold" />
+        </Border>
+
+        <BoxView Color="Transparent"
+                         Grid.Column="3"
+                         VerticalOptions="Center">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding RightIconCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <ImageButton Grid.Column="3"
+                             Source="{Binding RightButtonSource}"
+                             IsVisible="{Binding RightButtonSource ,Converter={StaticResource IsStringNullOrEmptyToBoolReverseConverter}}"
+                             Command="{Binding RightIconCommand}"
+                             Padding="2" />
+    </Grid>
+</ContentView>
