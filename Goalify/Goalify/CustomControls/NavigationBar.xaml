@@ -34,7 +34,7 @@
             </BoxView.GestureRecognizers>
         </BoxView>
         <ImageButton Source="{Binding LeftButtonSource}"
-                             IsVisible="{Binding LeftButtonSource ,Converter={StaticResource IsStringNullOrEmptyToBoolReverseConverter}}"
+                             IsVisible="{Binding LeftButtonSource ,Converter={StaticResource StringToBoolConverter}}"
                              VerticalOptions="Center"
                              Padding="2,1"
                              Command="{Binding LeftIconCommand}"
@@ -91,7 +91,7 @@
         </BoxView>
         <ImageButton Grid.Column="3"
                              Source="{Binding RightButtonSource}"
-                             IsVisible="{Binding RightButtonSource ,Converter={StaticResource IsStringNullOrEmptyToBoolReverseConverter}}"
+                             IsVisible="{Binding RightButtonSource ,Converter={StaticResource StringToBoolConverter}}"
                              Command="{Binding RightIconCommand}"
                              Padding="2" />
     </Grid>

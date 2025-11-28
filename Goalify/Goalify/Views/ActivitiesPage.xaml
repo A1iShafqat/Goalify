@@ -4,13 +4,71 @@
              x:Class="Goalify.Views.ActivitiesPage"
              xmlns:viewModel="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
              x:DataType="viewModel:ActivityViewModel"
+             xmlns:model="clr-namespace:Goalify.Common.Models;assembly=Goalify.Common"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="ActivitiesPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+        
     <Grid RowDefinitions="*,auto"
         Padding="20">
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <CollectionView ItemsSource="{Binding Activities}"
+                SelectionMode="Single"
+                Margin="10">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:ActivityModel">
+
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Edit"
+                                           BackgroundColor="CadetBlue"
+                                           mi:MauiIcon.Value="{mi:Material Icon=Edit, FontOverride=True}"    
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ActivityViewModel}}, Path=EditActivityCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="8"
+                              ColumnDefinitions="Auto,*"
+                              RowDefinitions="Auto,Auto">
+
+                            <!-- Icon -->
+                            <Image Grid.RowSpan="2"
+                                   Grid.Column="0"
+                                   WidthRequest="35"
+                                   HeightRequest="35"
+                                   Aspect="AspectFit"
+                                   Source="{Binding Icon, Converter={toolkit:ByteArrayToImageSourceConverter}}" />
+
+                            <!-- Name -->
+                            <Label Grid.Column="1"
+                                   Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   FontSize="16"
+                                   Margin="10,0,0,2" />
+
+                            <!-- Description -->
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Description}"
+                                   MaxLines="2"
+                                   LineBreakMode="TailTruncation"
+                                   FontSize="13"
+                                   TextColor="Gray"
+                                   Margin="10,0,0,0" />
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
         
         <Button Text="Add Activity"
                 Command="{Binding NavigateToAddActivityCommand}"

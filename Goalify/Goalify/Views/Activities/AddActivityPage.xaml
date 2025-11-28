@@ -6,6 +6,7 @@
              xmlns:viewModel="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
              x:DataType="viewModel:ActivityViewModel"
              Title="AddActivityPage">
+    
     <Grid RowDefinitions="30,50,auto,40,*" Padding="20"
                          RowSpacing="10">
 
@@ -32,12 +33,25 @@
                WidthRequest="30"
                Grid.Row="4"
                VerticalOptions="Start"
-               Source="{Binding CachedImage}"/>
+               Source="{Binding SelectedIcon}"/>
 
         <Button Text="Save Activity"
                 Command="{Binding SaveActivityCommand}"
                 VerticalOptions="End"
-                Grid.Row="4"/>
-
+                Grid.Row="4"
+                IsEnabled="False">
+            <Button.Triggers>
+                <MultiTrigger TargetType="Button" >
+                    <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding Activity.Name, Converter={StaticResource StringToBoolConverter}}"
+                                          Value="true"/>
+                        <BindingCondition Binding="{Binding Activity.Description, Converter={StaticResource StringToBoolConverter}}"
+                                          Value="true"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="IsEnabled"
+                            Value="true"/>
+                </MultiTrigger>
+            </Button.Triggers>
+        </Button>
     </Grid>
 </ContentPage>
