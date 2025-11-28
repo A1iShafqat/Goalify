@@ -1,8 +1,11 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Converters;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Goalify.Common.Models;
 using Goalify.Services.DbService;
-using SQLite;
+using System.Collections.ObjectModel;
 
 namespace Goalify.ViewModels
 {
@@ -14,7 +17,14 @@ namespace Goalify.ViewModels
         ActivityModel activity;
 
         [ObservableProperty]
-        ImageSource cachedImage;
+        ObservableCollection<ActivityModel> activities = [];
+
+        [ObservableProperty]
+        ImageSource selectedIcon;
+
+        byte[] cachedImage;
+
+        bool isEdit { get; set; } = false;
 
         IconItem iconItem { get; set; }
 
@@ -27,15 +37,19 @@ namespace Goalify.ViewModels
         public override async Task InitAsync()
         {
             await dbService.InitAsync<ActivityModel>();
+            Activities = new ObservableCollection<ActivityModel>(await dbService.GetAllAsync<ActivityModel>());
         }
 
         public override void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query.TryGetValue("SelectedIcon", out var selectedIcon))
+            if (query.TryGetValue("SelectedIcon", out var sIcon))
             {
-                if (selectedIcon is IconItem iconItem)
+                if (sIcon is IconItem iconItem)
                 {
-                    CachedImage = iconItem.CachedImage;
+                    var glyph = Abc.GetGlyph(iconItem.Icon);
+                    cachedImage = Abc.RenderGlyphToBytes(glyph);
+                    var converter = new ByteArrayToImageSourceConverter();
+                    SelectedIcon = converter.ConvertFrom(cachedImage);
                 }
             }
         }
@@ -51,18 +65,65 @@ namespace Goalify.ViewModels
         [RelayCommand]
         async Task SaveActivityAsync()
         {
-            //Activity.Icon 
-            var glyph = Abc.GetGlyph(iconItem.Icon);
-            Activity.Icon = Abc.RenderGlyphToBytes(glyph);
-            await dbService.AddAsync(Activity);
-            // Save activity logic here
-            // await Shell.Current.GoToAsync("..");
+
+
+            Activity.Icon = cachedImage ?? [];
+            int? result;
+            if (isEdit)
+            {
+                result = await dbService.UpdateAsync(Activity);
+            }
+            else
+            {
+                result = await dbService.AddAsync(Activity);
+            }
+                var snackbar = Snackbar.Make(
+                    message: result.Value == 1 ? "Successfully Saved" : "Something went wrong!",
+                    duration: TimeSpan.FromSeconds(4),
+                    visualOptions: new SnackbarOptions
+                    {
+                        BackgroundColor = Colors.Black,
+                        TextColor = Colors.White,
+                        ActionButtonTextColor = Colors.Yellow,
+                        CornerRadius = new CornerRadius(8),
+                        CharacterSpacing = 0.1
+                    });
+
+            if (result == 1)
+            {
+                await Shell.Current.GoToAsync("..");
+                isEdit = false;
+            }
+            await snackbar.Show();
+
         }
 
         [RelayCommand]
         void SelectIcon()
         {
             Shell.Current.GoToAsync("TestPage");
+        }
+
+        [RelayCommand]
+        async Task EditActivityAsync(ActivityModel activityModel)
+        {
+            await Shell.Current.GoToAsync("AddActivityPage");
+            Activity.Name = activityModel.Name;
+            Activity.Description = activityModel.Description;
+            Activity.Icon = cachedImage = activityModel.Icon ?? [];
+            Activity.Id = activityModel.Id;
+            isEdit = true;
+
+            byte[]? bytes = activityModel.Icon;
+            var converter = new ByteArrayToImageSourceConverter();
+            SelectedIcon = converter.ConvertFrom(bytes);
+
+            //if (cachedImage is null)
+            //{
+            //    return;
+            //}
+
+            cachedImage = activityModel.Icon ?? [];
         }
 
 

@@ -10,6 +10,6 @@ public class RoutineGoalModel
     public long ActivityId { get; set; }
     public TimeOnly Reminder { get; set; }
     public bool IsDaily { get; set; }
-    public List<DayOfWeek>? DaysOfWeek { get; set; }
+    public bool IsEssential { get; set; }
     public RoutineRepitationModel? RoutineRepitation { get; set; }
 }

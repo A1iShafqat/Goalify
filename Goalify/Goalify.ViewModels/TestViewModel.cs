@@ -1,15 +1,12 @@
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
-using System.Reflection;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiIcons.Material;
-using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Graphics.Platform;
 using SkiaSharp;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace Goalify.ViewModels
 {
