@@ -3,6 +3,7 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:Goalify.Views"
+       xmlns:routineView="clr-namespace:Goalify.Views.Routines"
        xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
        Shell.NavBarIsVisible="False">
     <Shell.Resources>
@@ -22,6 +23,9 @@
         <ShellContent Title="Home"
                       mi:MauiIcon.Value="{mi:Material Icon=Home, FontOverride=True}"
                      ContentTemplate="{DataTemplate views:HomePage}" />
+        <ShellContent Title="Routine"
+                      mi:MauiIcon.Value="{mi:FontAwesome Icon=Clipboard, FontOverride=True}"
+                      ContentTemplate="{DataTemplate routineView:RoutinePage}" />
         <ShellContent Title="Activities"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=RectangleList, FontOverride=True}"
                       ContentTemplate="{DataTemplate views:ActivitiesPage}" />

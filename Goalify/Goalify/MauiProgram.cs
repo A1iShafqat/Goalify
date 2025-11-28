@@ -3,6 +3,7 @@ using Goalify.Services.DbService;
 using Goalify.ViewModels;
 using Goalify.Views;
 using Goalify.Views.Activities;
+using Goalify.Views.Routines;
 using Goalify.Views.Test;
 using MauiIcons.Core;
 using MauiIcons.FontAwesome;
@@ -39,8 +40,12 @@ namespace Goalify
             builder.Services.AddSingleton<ActivityViewModel>();
             builder.Services.AddSingleton<HomePage>();
             builder.Services.AddSingleton<HomeViewModel>();
+
             builder.Services.AddSingleton<TestPage>();
             builder.Services.AddSingleton<TestViewModel>();
+
+            builder.Services.AddSingleton<RoutinePage>();
+            builder.Services.AddSingleton<RoutineViewModel>();
 
 
             return builder.Build();
