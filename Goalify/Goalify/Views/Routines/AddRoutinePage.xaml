@@ -3,11 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Goalify.Views.Routines.AddRoutinePage"
              xmlns:viewModel="clr-namespace:Goalify.ViewModels;assembly=Goalify.ViewModels"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="viewModel:RoutineViewModel"
              Title="AddRoutinePage">
-    <VerticalStackLayout>
-        <Label Text="Welcome to .NET MAUI!"
+    <Grid RowDefinitions="40,40,40,40,*"
+          Padding="20">
+        <Label Text="Add a Routine"
                VerticalOptions="Center" 
                HorizontalOptions="Center" />
-    </VerticalStackLayout>
+        
+        <Button Text="Select Activity"
+                Grid.Row="1"
+                Command="{Binding SelectActivityCommand}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" 
+                IsVisible="True"/>
+
+        <HorizontalStackLayout Grid.Row="1"
+                               Spacing="10"
+                               IsVisible="False">
+            <Label Text="{Binding SelectedActivity}"
+                   VerticalOptions="Start" />
+
+            <ImageButton mi:MauiIcon.Value="{mi:Material Icon=Edit, FontOverride=True}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="2">
+                <Label Text="Essential Activity"
+                       VerticalOptions="Center" />
+                
+                <Switch IsToggled="{Binding RoutineGoal.IsEssential}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="3">
+            <Label Text="Daily Activity"
+                   VerticalOptions="Center" />
+
+            <Switch IsToggled="{Binding RoutineGoal.IsDaily}"/>
+        </HorizontalStackLayout>
+
+        <Button Text="Save Routine"
+                Grid.Row="4"
+                Command="{Binding SaveRoutineCommand}"
+                VerticalOptions="End"
+                HorizontalOptions="Center" />
+
+    </Grid>
 </ContentPage>

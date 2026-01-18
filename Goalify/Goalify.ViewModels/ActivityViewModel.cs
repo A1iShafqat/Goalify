@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Converters;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Goalify.Common.Helper;
 using Goalify.Common.Models;
 using Goalify.Services.DbService;
 using System.Collections.ObjectModel;
@@ -77,25 +78,14 @@ namespace Goalify.ViewModels
             {
                 result = await dbService.AddAsync(Activity);
             }
-                var snackbar = Snackbar.Make(
-                    message: result.Value == 1 ? "Successfully Saved" : "Something went wrong!",
-                    duration: TimeSpan.FromSeconds(4),
-                    visualOptions: new SnackbarOptions
-                    {
-                        BackgroundColor = Colors.Black,
-                        TextColor = Colors.White,
-                        ActionButtonTextColor = Colors.Yellow,
-                        CornerRadius = new CornerRadius(8),
-                        CharacterSpacing = 0.1
-                    });
 
             if (result == 1)
             {
                 await Shell.Current.GoToAsync("..");
                 isEdit = false;
             }
-            await snackbar.Show();
 
+            await SnackbarHelper.ShowSnackAsync(result.Value == 1 ? "Successfully Saved" : "Something went wrong!");
         }
 
         [RelayCommand]
