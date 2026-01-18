@@ -22,15 +22,19 @@
     <TabBar>
         <ShellContent Title="Home"
                       mi:MauiIcon.Value="{mi:Material Icon=Home, FontOverride=True}"
-                     ContentTemplate="{DataTemplate views:HomePage}" />
+                     ContentTemplate="{DataTemplate views:HomePage}" 
+                      Route="HomePage"/>
         <ShellContent Title="Routine"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=Clipboard, FontOverride=True}"
-                      ContentTemplate="{DataTemplate routineView:RoutinePage}" />
+                      ContentTemplate="{DataTemplate routineView:RoutinePage}" 
+                      Route="RoutinePage"/>
         <ShellContent Title="Activities"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=RectangleList, FontOverride=True}"
-                      ContentTemplate="{DataTemplate views:ActivitiesPage}" />
-            <ShellContent Title="Profiles"
+                      ContentTemplate="{DataTemplate views:ActivitiesPage}" 
+                      Route="ActivityPage"/>
+            <ShellContent Title="Profile"
                       mi:MauiIcon.Value="{mi:FontAwesome Icon=User, FontOverride=False}"
-                      ContentTemplate="{DataTemplate views:ProfilePage}" />
+                      ContentTemplate="{DataTemplate views:ProfilePage}" 
+                          Route="ProfilePage"/>
         </TabBar>
 </Shell>
