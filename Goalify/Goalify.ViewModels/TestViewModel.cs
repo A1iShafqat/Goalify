@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Goalify.Common.Helper;
 using MauiIcons.Material;
 using SkiaSharp;
 using System.Collections.ObjectModel;
@@ -88,21 +89,7 @@ namespace Goalify.ViewModels
         [RelayCommand]
         async Task IconSelectionChangeAsync(IconItem iconItem)
         {
-            var snackbar = Snackbar.Make(
-                message: iconItem.Icon.ToString(),
-                duration: TimeSpan.FromSeconds(4),
-                visualOptions: new SnackbarOptions
-                {
-                    BackgroundColor = Colors.Black,
-                    TextColor = Colors.White,
-                    ActionButtonTextColor = Colors.Yellow,
-                    CornerRadius = new CornerRadius(8),
-                    CharacterSpacing = 0.2
-                }
-            );
-
-            await snackbar.Show();
-
+            await SnackbarHelper.ShowSnackAsync(iconItem.Icon.ToString());
         }
 
         [RelayCommand]
@@ -110,19 +97,7 @@ namespace Goalify.ViewModels
         {
             if (SelectedIcon is null)
             {
-                var snackbar = Snackbar.Make(
-                    message: "Icon not selected",
-                    duration: TimeSpan.FromSeconds(4),
-                    visualOptions: new SnackbarOptions
-                    {
-                        BackgroundColor = Colors.Black,
-                        TextColor = Colors.White,
-                        ActionButtonTextColor = Colors.Yellow,
-                        CornerRadius = new CornerRadius(8),
-                        CharacterSpacing = 0.2
-                    }
-                );
-                await snackbar.Show();
+                await SnackbarHelper.ShowSnackAsync("Icon not selected");
                 return;
             }
 

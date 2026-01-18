@@ -1,10 +1,13 @@
-﻿namespace Goalify
+﻿using Goalify.Services.ConnectivityService;
+
+namespace Goalify
 {
     public partial class App : Application
     {
-        public App()
+        public App(IConnectivityService connectivityService)
         {
             InitializeComponent();
+            connectivityService.StartMonitoring();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui;
+using Goalify.Services.ConnectivityService;
 using Goalify.Services.DbService;
 using Goalify.ViewModels;
 using Goalify.Views;
@@ -46,7 +47,7 @@ namespace Goalify
 
             builder.Services.AddSingleton<RoutinePage>();
             builder.Services.AddSingleton<RoutineViewModel>();
-
+            builder.Services.AddSingleton<IConnectivityService, ConnectivityService>();
 
             return builder.Build();
         }
