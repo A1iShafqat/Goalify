@@ -2,7 +2,7 @@ using Goalify.Common.Types;
 
 namespace Goalify.Common.Models;
 
-public class RoutineRepitationModel
+public class RoutineRepetationModel
 {
     public RoutineRepitationType RepitationType { get; set; }
     public int Interval { get; set; }
