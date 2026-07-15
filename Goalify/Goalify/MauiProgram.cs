@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Goalify.Services.DbService;
+using Goalify.Services.Notification;
 using Goalify.ViewModels;
 using Goalify.Views;
 using Goalify.Views.Activities;
@@ -34,6 +35,7 @@ namespace Goalify
 #endif
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, "app.db");
             builder.Services.AddSingleton(new SQLiteService(dbPath));
+            builder.Services.AddSingleton<ILocalNotificationService, LocalNotificationService>();
 
             builder.Services.AddSingleton<ActivitiesPage>();
             builder.Services.AddTransient<AddActivityPage>();
@@ -46,6 +48,7 @@ namespace Goalify
 
             builder.Services.AddSingleton<RoutinePage>();
             builder.Services.AddSingleton<RoutineViewModel>();
+
 
 
             return builder.Build();

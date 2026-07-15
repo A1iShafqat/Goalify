@@ -1,11 +1,17 @@
-﻿using Android.App;
+using Android.App;
 using Android.Content.PM;
-using Android.OS;
+using Plugin.LocalNotification;
 
 namespace Goalify
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
     {
+
+        //// Initialize local notifications
+        //LocalNotificationCenter.Default.Initialize();
+
+        //// Request permission for notifications
+        //LocalNotificationCenter.Default.RegisterForNotifications();
     }
 }
