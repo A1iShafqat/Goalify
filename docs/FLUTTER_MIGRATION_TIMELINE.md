@@ -75,14 +75,14 @@ Rules for keeping the schedule realistic:
 
 After the Flutter Architecture Expert finishes a session:
 
-1. Use its **Review Completed Session** handoff or select the Flutter Session Reviewer.
-2. Ask it to review the named session against this timeline and the architecture rules.
+1. Ask the root Codex task to delegate the completed work to the project custom agent `flutter_session_reviewer`.
+2. Ask it to review the named session against this timeline, `AGENTS.md`, and the architecture rules.
 3. Resolve Critical findings before doing any other migration work.
 4. Resolve Missing must-haves before starting a dependent next session.
 5. Confirm or reject every unconfirmed dual-system overlap.
 6. Track accepted Medium and Low findings without silently expanding the next session.
 
-The reviewer is read-only. Implementation remains the responsibility of the Flutter Architecture Expert after the user approves the correction approach when approval is required.
+The reviewer is read-only. Implementation remains the responsibility of the project custom agent `flutter_architecture_expert` after the user approves the correction approach when approval is required.
 
 ## Week 1 — Flutter foundation and architecture
 
