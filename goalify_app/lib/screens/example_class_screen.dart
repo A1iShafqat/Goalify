@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controllers/class_controller.dart';
-import '../localization/school_strings.dart';
-import '../shared_widgets/primary_button.dart';
+import '../controllers/example_class_controller.dart';
+import '../localization/example_school_strings.dart';
+import '../shared_widgets/example_primary_button.dart';
 
 /// The main screen displaying the teacher and students.
 ///

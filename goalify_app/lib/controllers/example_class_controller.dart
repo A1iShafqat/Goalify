@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../data/models/student_model.dart';
-import '../data/models/teacher_model.dart';
-import '../services/school_service.dart';
+import '../data/models/example_student_model.dart';
+import '../data/models/example_teacher_model.dart';
+import '../services/example_school_service.dart';
 
 /// Manages the state for the Class Screen.
 ///

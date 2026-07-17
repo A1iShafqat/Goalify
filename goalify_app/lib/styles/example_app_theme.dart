@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'example_app_colors.dart';
 
 /// Centralized theme configuration for the application.
 ///

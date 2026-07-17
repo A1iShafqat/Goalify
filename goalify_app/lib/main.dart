@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'controllers/class_controller.dart';
-import 'localization/school_strings.dart';
-import 'routing/app_router.dart';
-import 'services/school_service.dart';
-import 'styles/app_theme.dart';
+import 'controllers/example_class_controller.dart';
+import 'localization/example_school_strings.dart';
+import 'routing/example_app_router.dart';
+import 'services/example_school_service.dart';
+import 'styles/example_app_theme.dart';
 
 /// The entry point for the Flutter application.
 ///

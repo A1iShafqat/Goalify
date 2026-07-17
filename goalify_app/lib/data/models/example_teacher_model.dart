@@ -1,4 +1,4 @@
-import '../types/class_subject.dart';
+import '../types/example_class_subject.dart';
 
 /// Represents a teacher in the school system.
 ///

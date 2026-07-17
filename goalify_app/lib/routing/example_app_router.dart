@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import '../screens/class_screen.dart';
+import '../screens/example_class_screen.dart';
 
 /// Centralized declarative routing configuration.
 ///

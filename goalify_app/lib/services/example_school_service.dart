@@ -1,6 +1,6 @@
-import '../data/models/student_model.dart';
-import '../data/models/teacher_model.dart';
-import '../data/types/class_subject.dart';
+import '../data/models/example_student_model.dart';
+import '../data/models/example_teacher_model.dart';
+import '../data/types/example_class_subject.dart';
 
 /// Abstract interface for fetching school data.
 ///

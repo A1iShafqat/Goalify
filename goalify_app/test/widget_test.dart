@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:goalify_app/main.dart';
-import 'package:goalify_app/localization/school_strings.dart';
+import 'package:goalify_app/localization/example_school_strings.dart';
 
 void main() {
   testWidgets('ClassScreen smoke test', (WidgetTester tester) async {
