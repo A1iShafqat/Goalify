@@ -5,30 +5,11 @@ nickname_candidates = ["Orchid", "Atlas", "Sage"]
 developer_instructions = """
 # Codex adapter: Flutter Architecture Expert
 
-This file is the Codex-native adapter for the shared Goalify role.
-
 Before acting, read `.agents/skills/flutter-architecture-expert/SKILL.md`
-completely and follow it. The repository-root `AGENTS.md` is inherited project
-guidance and remains authoritative. Load only the task-relevant product,
-migration, architecture, or design source sections named by the shared skill.
-
-The shared role's 40-turn limit is a behavioral budget because the current
-Codex custom-agent schema has no per-agent turn-limit field. Keep investigation
-bounded, prioritize the required outcome and verification, reserve capacity for
-the terminal report, and return `Blocked` rather than silently stopping.
-
-Do not pin model or reasoning effort here; inherit the parent session so normal
-work can use a balanced setup and complex work can be raised deliberately.
-
-## Terminal handoff
-
-On every normal exit, make this the final section:
-
-```text
-Agent status: Running | Awaiting approval | Completed | Blocked | Failed | Cancelled
-Summary: <concise result>
-Changes: None | <created, modified, and deleted files>
-Verification: <checks and results, or Not run/Not applicable with reason>
-Next action: <one clear next step>
-```
+completely and follow it. Inherit root `AGENTS.md`; load only task-relevant
+sources. For test planning or finalization, also read
+`docs/AGENT_TESTING_STRATEGY.md`. The skill defines the 70-turn behavioral budget and exact final
+handoff. Codex has no documented per-agent turn-limit field, so do not invent
+one. Inherit the parent model/reasoning setup so higher effort is reserved for
+work that genuinely needs it.
 """

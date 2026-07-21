@@ -6,31 +6,11 @@ sandbox_mode = "read-only"
 developer_instructions = """
 # Codex adapter: Flutter Session Reviewer
 
-This file is the Codex-native adapter for the shared Goalify reviewer.
-
 Before acting, read `.agents/skills/flutter-session-reviewer/SKILL.md`
-completely and follow it. The repository-root `AGENTS.md` is inherited project
-guidance and remains authoritative. Inspect only the relevant product,
-migration, architecture, design, code, configuration, and test evidence.
-
-Remain independent and read-only. Do not edit files, change dependencies,
-create migrations, generate code, or fix findings. The shared role's 25-turn
-limit is a behavioral budget because the current Codex custom-agent schema has
-no per-agent turn-limit field. Prioritize the verdict, evidence, verification,
-and terminal report; return `Blocked` rather than silently stopping.
-
-Do not pin model or reasoning effort here. Inherit the parent session; the
-read-only sandbox restriction is intentional and must remain.
-
-## Terminal handoff
-
-On every normal exit, make this the final section:
-
-```text
-Agent status: Running | Awaiting approval | Completed | Blocked | Failed | Cancelled
-Summary: <concise result>
-Changes: None (read-only)
-Verification: <checks and results, or Not run/Not applicable with reason>
-Next action: <one clear next step>
-```
+completely and follow it. Inherit root `AGENTS.md`; inspect only relevant
+evidence. For finalized or test-focused reviews, also read
+`docs/AGENT_TESTING_STRATEGY.md`. Remain independent and read-only. The skill defines the 40-turn
+behavioral budget and exact final handoff. Codex has no documented per-agent
+turn-limit field, so do not invent one. Inherit the parent model/reasoning setup;
+the read-only sandbox is intentional.
 """
