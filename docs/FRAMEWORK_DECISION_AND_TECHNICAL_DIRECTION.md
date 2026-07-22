@@ -23,19 +23,30 @@ The recommendation would reverse to **stay with MAUI 10** if the real priority i
 
 ## What the product requires
 
-The PVRD describes an offline, privacy-first routine tracker whose main interaction should feel instantaneous and encouraging. Its MVP requires:
+`PRODUCT_UX_FLOW.md` is the approved product-behavior and screen-flow source of truth. `.stitch/DESIGN.md` defines the visual system, while this document defines the technical direction and domain boundaries.
+
+The PVRD describes an offline, privacy-first routine tracker whose main interaction should feel instantaneous and encouraging. Its approved user-facing concepts are **Activity**, **Routine**, and **Goal**:
+
+- An Activity is reusable identity with visible default recurrence, acceptance target, Essential, and reminder configuration. Adding an Activity to a Routine copies those defaults into Routine-owned settings that can be overridden without changing the Activity.
+- A saved Routine is a reusable definition. Starting or restarting it creates a separate dated Routine run with required start and end dates. An active or upcoming run can be edited, and its configuration can be saved as a Routine; completed run history and results remain immutable.
+- A Goal is the minimum score selected for a Routine run. It supports lightweight gamification and daily engagement; it is not a parent container for Activities or Routines.
+
+The MVP requires:
 
 - A local user profile.
-- Goal Plans containing reusable Routine Goals and Activity definitions.
 - Flexible repetition and acceptance criteria rather than daily streaks.
-- Daily, weekly, and monthly scoring buckets.
-- An Essential flag that gives a routine two shares within its bucket.
-- A daily dashboard combining routines, one-off to-dos, and reminders.
+- PVRD scoring with Daily/Weekly/Monthly category allocation of 60/30/10 and double shares for Essential Activities within their category.
+- A **Today / Routines / More** bottom shell. Routines owns Current (Active/Upcoming), Saved, and History; More owns profile, settings, and tool enablement.
+- A drawer used only for enabled tool shortcuts beneath an informational profile/greeting header.
+- A Today view combining Routine Activities, one-off To-Dos, and standalone Reminders. Disabling a tool hides its drawer shortcut without deleting its data.
 - Local notifications.
-- Completion feedback using text, graphics, and icons.
-- Built-in templates.
+- Accepted swipe behavior with visible alternatives: start-to-end Complete/Done, changing to Undo after completion; end-to-start Mute today for a Routine Activity, Delay for a Reminder, and Edit/reschedule for a To-Do.
+- Completed items that remain visible, sort below incomplete items, and use a bright motivational state with an icon and label so meaning does not depend on color.
+- End-of-run results with the PVRD score breakdown by configured Activity, motivational copy, an accessible compact achieved/partial/missed/rest calendar using color plus non-color cues, and Restart with new dates.
+- Built-in starter content, encouraging completion feedback, and a calm motivational productivity design using primary `#30A1C9` with accessible light, dark, large-text, contrast, screen-reader, and reduced-motion behavior.
 - A complete local database with no cloud dependency.
-- Later import/export, analytics, collaboration, rich notes, AI features, ads, and a one-time premium purchase.
+
+Import/export is planned for V1.1. Gallery-image Activity icons, Routine sharing, analytics, collaboration, rich notes, AI features, ads, and a one-time premium purchase are future work.
 
 The framework-independent technical center of Goalify is therefore the scheduling and scoring domain. The visible product differentiator is the speed and quality of the daily completion experience.
 
@@ -59,15 +70,16 @@ There are 61 C#, XAML, and project files, but much of that is template code, sty
 The following PVRD capabilities are not yet product-ready:
 
 - Onboarding and local profile.
-- Goal Plan creation and lifecycle.
-- Routine scheduling and acceptance criteria.
+- Saved Routine creation and dated Routine-run lifecycle.
+- Activity default configuration plus per-Routine copy/override behavior.
+- Routine scheduling, Goal selection, and acceptance criteria.
 - Completion-event history.
 - The scoring engine and score snapshots.
 - Daily dashboard composition.
 - Standalone to-dos and reminders.
 - Templates.
-- End-of-plan archive, renew, or adjust flows.
-- Import/export.
+- End-of-run immutable results, History, and Restart with new dates.
+- Import/export for V1.1.
 - Analytics.
 - A design system, motion system, reduced-motion behavior, and accessibility semantics.
 - Automated unit, widget/UI, integration, or migration tests.
@@ -144,10 +156,11 @@ Before migrating the entire repository, build one production-shaped vertical sli
 
 ### Slice scope
 
-- A local database with an Activity, one Goal Plan, two Routine Goals, and completion events.
-- A dashboard that loads today's routines from the database.
+- A local database with Activities, one seeded saved Routine, one dated Routine run, two configured Routine Activities, a fixed Goal target, and completion events.
+- A dashboard that loads today's configured Activities from the Routine run.
 - Instant optimistic completion and undo.
-- A swipe action on a routine card.
+- Start-to-end Complete/Undo and end-to-start Mute today on a Routine Activity, with visible non-gesture alternatives.
+- Completed items remaining visible, sorting below incomplete items, and communicating success with color plus an icon and label.
 - An animated progress indicator and a short, encouraging completion celebration.
 - Haptic feedback where supported.
 - A reduced-motion path that preserves all meaning without movement.
@@ -178,16 +191,16 @@ Presentation
   Screens, reusable widgets, motion, accessibility, view state
         |
 Application
-  Use cases: complete routine, undo completion, build dashboard,
-  calculate score, archive/renew plan, schedule reminder
+  Use cases: start/restart run, complete Activity, undo completion,
+  build Today, finalize run result, schedule reminder
         |
 Domain
-  Entities, value objects, recurrence rules, acceptance engine,
-  scoring policies; no Flutter or database imports
+  Activity, Routine definition/run, Goal target, recurrence rules,
+  acceptance engine, scoring policies; no Flutter or database imports
         |
 Data and platform adapters
   SQLite repositories, migrations, local notifications,
-  import/export, preferences, haptics, purchases/ads later
+  preferences, haptics, and V1.1/future adapters later
 ```
 
 Rules:
@@ -195,11 +208,13 @@ Rules:
 - Domain scoring and recurrence logic must be pure Dart with deterministic unit tests.
 - Screens must not issue SQL or schedule native notifications directly.
 - Store completion events as facts; derive daily status and scores from those facts.
+- Snapshot the Routine-owned Activity configuration into each run so later edits cannot rewrite completed history or results.
 - Make all date calculations explicit about local date, time zone, and week start.
 - Put schema migrations under version control from the first Flutter database version.
 - Keep animation tokens—durations, easing curves, distances, haptic types—in a central motion theme.
 - Respect the operating system's reduced-motion and accessibility preferences.
 - Keep ads, analytics, cloud sync, and AI outside the core local habit-data path.
+- Use primary `#30A1C9` through centralized color tokens and verify accessible light, dark, and reduced-motion behavior.
 
 ## Proposed domain and data model
 
@@ -208,34 +223,38 @@ The PVRD needs more than the current five models.
 | Entity/value object | Purpose |
 |---|---|
 | `LocalProfile` | Name, optional age, avatar reference, onboarding/privacy acknowledgement. |
-| `GoalPlan` | Name, lifecycle state, start/end dates, archive/renew metadata. |
-| `ActivityDefinition` | Reusable name, description, icon identifier, optional color. |
-| `RoutineGoal` | Links a Goal Plan to an Activity and holds Essential status and category. |
+| `Activity` | Reusable identity, description, icon identifier, optional color, and visible default configuration. |
+| `RoutineDefinition` | Saved reusable Routine metadata and its configured Activity relationships. |
+| `RoutineActivityConfiguration` | Routine-owned copy/override of an Activity's recurrence, Essential, reminder, and acceptance settings. |
+| `RoutineRun` | Separate execution with required start/end dates, lifecycle state, and selected Goal. |
+| `RoutineRunActivitySnapshot` | Immutable run-specific snapshot of Activity identity and configured settings used for history and scoring. |
+| `Goal` | The selected minimum score target for one Routine run, not a parent entity. |
 | `RepetitionRule` | Daily, weekly, monthly, selected weekdays, interval, and future extensibility. |
 | `AcceptanceCriterion` | Required completions within a defined cycle. |
-| `CompletionEvent` | Immutable completion/undo facts with routine ID, local date, and timestamp. |
-| `Reminder` | Target entity, local scheduled time, recurrence, enabled state, platform schedule ID. |
+| `CompletionEvent` | Immutable complete/undo facts with run-Activity ID, local date, and timestamp. |
+| `Reminder` | Standalone or configured reminder with local time, recurrence, enabled state, and stable platform schedule ID. |
 | `TodoItem` | Standalone dashboard task with optional due date/time and completion state. |
-| `Template` | Built-in starter Goal Plan and Routine Goal definitions. |
-| `ScoreSnapshot` | Optional persisted end-of-cycle/end-of-plan result for auditability. |
+| `Template` | Built-in starter Activity and Routine definitions. |
+| `RoutineRunResult` | Immutable finalized score breakdown and achieved/partial/missed/rest calendar for a completed run. |
 | `AppSetting` | Week start, notification preferences, reduced motion override if offered. |
 
-Use relational join keys rather than object lists inside persisted records. In particular, `RoutineGoal` must contain a `GoalPlanId` and `ActivityDefinitionId`, while `CompletionEvent` must contain a `RoutineGoalId`.
+Use relational keys rather than mutable object lists inside persisted records. A Routine Activity configuration references its reusable Activity and Routine definition; a run snapshot references its run; a Completion Event references that run snapshot. Starting or restarting always creates a new run and snapshots its configuration. Editing reusable definitions must never rewrite finalized run history or results.
 
 ## Scoring engine rules that need specification
 
-The PVRD gives a clear worked example but leaves important edge cases undecided. These must be resolved before implementing the scoring engine:
+The confirmed PVRD baseline allocates 60/30/10 of the run score to Daily/Weekly/Monthly configured-Activity categories. Activities receive equal shares inside their category, with each Essential Activity receiving two shares. The selected Goal is the minimum final score the user aims to achieve.
 
-1. Are the Daily/Weekly/Monthly weights always 60/30/10, are they template-defined, or can users edit them?
-2. If a Goal Plan has no tasks in one category, is that category's weight redistributed or removed from the denominator?
-3. Does completion above the acceptance target stop at 100%, or can it produce bonus progress?
-4. How are partial completions represented, or are completion events always binary?
-5. What is the start of the week, and can the user change it?
-6. How are routines handled when a Goal Plan starts or ends in the middle of a cycle?
-7. What happens when a user changes a routine's criteria or Essential flag during an active cycle?
-8. Do late/backdated completions change already displayed or finalized scores?
-9. How are daylight-saving and time-zone changes handled for due dates and reminders?
-10. Is the final score rounded, truncated, or displayed with decimals before mapping to 1-100?
+The PVRD still leaves important edge cases unresolved. Preserve them as explicit decisions; do not invent behavior while implementing:
+
+1. If a Routine run has no Activities in one category, is that category's weight redistributed or removed from the denominator?
+2. Does completion above the acceptance target stop at 100%, or can it produce bonus progress?
+3. How are partial completions represented, or are completion events always binary?
+4. What is the start of the week, and can the user change it?
+5. How are Activities handled when a Routine run starts or ends in the middle of a scoring cycle?
+6. What happens when a user changes criteria or Essential status during an active run?
+7. Do late or backdated completions change already displayed or finalized scores?
+8. How are daylight-saving and time-zone changes handled for due dates and reminders?
+9. Is the final score rounded, truncated, or displayed with decimals before mapping to 1-100?
 
 Until these are answered, keep scoring policies versioned so an algorithm change does not silently rewrite historical results.
 
@@ -257,26 +276,31 @@ Build and evaluate the Flutter vertical slice. Do not add new MAUI product featu
 ### Phase 2 — Core MVP flows
 
 - Onboarding and local profile.
-- Activity definitions and icon selection.
-- Goal Plan and Routine Goal creation.
-- Daily dashboard, completion, undo, and reminders.
-- Plan progress and final score.
-- Archive, renew, and adjust flows.
+- Activity identity and visible default configuration.
+- Saved Routine creation with copied/overridden Activity settings.
+- Start/edit Routine runs with required dates and a selected Goal.
+- Today completion/undo, To-Dos, standalone Reminders, and tool enablement.
+- Current, Saved, and History views under Routines.
+- Immutable end-of-run results, accessible calendar, and Restart with new dates.
 
 ### Phase 3 — Product polish
 
 - Empty, loading, error, permission-denied, and date-rollover states.
-- Completion motion, haptics, dashboard transitions, and encouraging graphics.
+- Completion motion, haptics, Today transitions, encouraging graphics, and the completed-item motivational state.
 - Accessibility, reduced motion, large text, color contrast, and screen-reader testing.
 - Physical-device performance profiling and battery checks.
 
 ### Phase 4 — Release hardening
 
-- Import/export from the PVRD Phase 1.5 if required for launch.
 - Database migration and backup/restore tests.
 - Notification reliability tests.
 - Privacy messaging and data-loss disclosure.
 - Store assets, crash reporting policy, release signing, and staged rollout.
+
+### Phase 5 — V1.1 and future work
+
+- Add import/export in V1.1 without weakening local-data privacy or migration compatibility.
+- Keep gallery-image Activity icons, Routine sharing, and analytics as separately approved future features.
 
 ## If MAUI is retained instead
 

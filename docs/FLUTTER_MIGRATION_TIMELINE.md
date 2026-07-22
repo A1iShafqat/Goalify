@@ -13,6 +13,10 @@ Use the full three weeks. A two-week migration is possible only by working four 
 
 This timeline migrates the **current MAUI prototype** and completes the **Flutter validation slice**. It does not deliver the complete Goalify MVP described in the PVRD.
 
+The approved Activity / Routine / Goal model and final shell guide this work, but only the small pieces needed to validate the architecture and interaction are scheduled here. Full Routine configuration, run management, scoring, tools, results, and post-MVP features remain outside the three-week commitment unless separately approved.
+
+Use `PRODUCT_UX_FLOW.md` and `.stitch/DESIGN.md` as the product and visual references for the pieces built in this timeline. They do not expand a session beyond its named outcome or exit gate.
+
 ## Expected result after three weeks
 
 By the end of this timeline, Goalify should have:
@@ -20,11 +24,13 @@ By the end of this timeline, Goalify should have:
 - A working Flutter application with a simple, maintainable project structure.
 - Android and iOS project configuration, with iOS build verification dependent on access to macOS and Xcode.
 - App theme, motion tokens, navigation, linting, and an initial test structure.
-- Pure Dart models for the first Goalify domain concepts.
+- A basic **Today / Routines / More** shell aligned with the approved navigation ownership.
+- Pure Dart models for the first validation-sized Activity, saved Routine, dated Routine-run, Goal-target, and completion concepts.
 - A versioned local SQLite database foundation.
 - Activity list, create, and edit behavior comparable to the useful part of the MAUI prototype.
-- A small dashboard slice with seeded Goal Plan/Routine data.
-- Routine completion, undo, swipe interaction, progress feedback, and haptics.
+- A small Today slice with a seeded saved Routine, a separate dated run, configured Activities, and a fixed Goal target.
+- Routine Activity completion, undo, Mute today, accepted swipe directions, visible alternatives, progress feedback, and haptics.
+- Completed validation items that remain visible, sort lower, and show an accessible motivational state.
 - A reduced-motion and accessible alternative to gesture-only behavior.
 - A local-notification proof of concept.
 - Analyzer, unit, and targeted widget-test results.
@@ -37,10 +43,12 @@ The MAUI project remains available as a reference during the migration. It shoul
 The following work should not be squeezed into these three weeks:
 
 - Complete onboarding and user-profile design.
+- Production Current (Active/Upcoming), Saved, and History sections; full Activity default copy/override UI; and complete Routine-run create/edit/restart lifecycle.
 - The full recurrence and acceptance-criteria engine.
-- Final Daily/Weekly/Monthly scoring behavior and all edge cases.
-- Production-ready templates, to-dos, reminders, archive/renew flows, or analytics.
-- Import/export and backup.
+- Final PVRD 60/30/10 scoring behavior, Goal evaluation, and unresolved edge-case decisions.
+- Production-ready templates, To-Dos, standalone Reminders, drawer tool enablement, or end-of-run results and calendar.
+- Import/export and backup UX, which is V1.1 work.
+- Gallery-image Activity icons, Routine sharing, and analytics, which are future work.
 - Final branding, illustrations, advanced animations, and complete screen designs.
 - Store signing, publishing, monetization, ads, or purchases.
 - Exhaustive device coverage.
@@ -75,14 +83,17 @@ Rules for keeping the schedule realistic:
 
 After the Flutter Architecture Expert finishes a session:
 
-1. Ask the root Codex task to delegate the completed work to the project custom agent `flutter_session_reviewer`.
-2. Ask it to review the named session against this timeline, `AGENTS.md`, and the architecture rules.
+1. Start the separate read-only reviewer: Codex delegates to `flutter_session_reviewer`; Antigravity activates `flutter-session-reviewer`.
+2. Review the named session against this timeline, `AGENTS.md`, and the architecture rules.
 3. Resolve Critical findings before doing any other migration work.
 4. Resolve Missing must-haves before starting a dependent next session.
 5. Confirm or reject every unconfirmed dual-system overlap.
 6. Track accepted Medium and Low findings without silently expanding the next session.
 
-The reviewer is read-only. Implementation remains the responsibility of the project custom agent `flutter_architecture_expert` after the user approves the correction approach when approval is required.
+The reviewer is read-only. Corrections return to the architecture role: Codex
+uses `flutter_architecture_expert`; Antigravity uses
+`flutter-architecture-expert`. Approval is still required when the correction
+is a feature or enhancement.
 
 ## Week 1 — Flutter foundation and architecture
 
@@ -120,8 +131,8 @@ Planned work:
 
 - Choose the first state-management and dependency approach after comparing SDK and package options.
 - Create only the initial presentation, application, domain, and data boundaries needed by the migration.
-- Add app-level theme, spacing, typography, and basic motion tokens.
-- Create the initial navigation shell for Home, Routines, Activities, and Profile placeholders.
+- Add app-level theme, spacing, typography, and basic motion tokens using primary `#30A1C9`, accessible light/dark themes, and a reduced-motion path.
+- Create the initial bottom shell for Today, Routines, and More placeholders. Record that Routines owns Current/Saved/History, More owns profile/settings/tool enablement, and the drawer is reserved for enabled tool shortcuts under an informational profile/greeting header; do not build those full flows in this session.
 - Add beginner-friendly comments explaining widgets, `build()`, immutable configuration, and navigation with MAUI comparisons.
 - Add one small navigation/widget test.
 
@@ -138,7 +149,8 @@ Session outcome:
 
 Planned work:
 
-- Define the minimum models needed for migration: `ActivityDefinition`, `GoalPlan`, `RoutineGoal`, and `CompletionEvent`.
+- Define the minimum models needed for validation: `Activity`, `RoutineDefinition`, `RoutineRun`, and `CompletionEvent`, with required run dates and a simple Goal target on the run.
+- Keep full Activity-default copying/overrides, Routine-run editing, result finalization, and scoring policies out of this session; seeded configuration is enough for the slice.
 - Keep the models independent of Flutter widgets and SQLite rows.
 - Define identifiers and the relationships missing from the MAUI prototype.
 - Add mapping boundaries only where persistence requires them.
@@ -189,7 +201,7 @@ Session outcome:
 - Widgets do not know about SQL or database package types.
 - The initial schema has an explicit version and migration entrypoint.
 
-Keep Goal Plans, routines, reminders, and completion storage out of this session unless time remains after verification. They are not required for Activity parity.
+Keep Routine definitions/runs, Goal scoring, reminders, and completion storage out of this session. They are not required for Activity parity and belong to later approved sessions or the post-migration MVP.
 
 ### Session 5 — Build Activity list, create, and edit screens
 
@@ -202,6 +214,7 @@ Planned work:
 - Add simple validation and save/error states.
 - Connect UI state to the application/repository flow.
 - Use a safe icon identifier rather than storing rendered icon image bytes when possible.
+- Keep gallery-image icons and the full recurrence/Essential/reminder default editor deferred; this parity form does not redefine the approved final Activity model.
 - Add useful comments for state updates, asynchronous saving, form lifecycle, and navigation.
 - Add targeted widget tests for empty, populated, validation, and saving states.
 
@@ -217,7 +230,7 @@ Session outcome:
 
 Planned work:
 
-- Add the Activity swipe action with a visible non-gesture alternative.
+- Keep Activity-library edit actions visible. Do not migrate the prototype's generic Activity-row swipe because it does not match the accepted Today-item swipe semantics.
 - Verify data after app restart.
 - Handle empty, loading, validation, and persistence-error states.
 - Review the migrated flow against the MAUI Activity behavior.
@@ -254,8 +267,8 @@ Continue only when:
 
 Planned work:
 
-- Add only the database tables/repositories needed for a seeded Goal Plan, two Routine Goals, and Completion Events.
-- Populate a simple dashboard from local data.
+- Add only the database tables/repositories needed for a seeded saved Routine, one separate dated Routine run, two configured Routine Activities, a fixed Goal target, and Completion Events.
+- Populate a simple Today view from local data.
 - Implement complete and undo behavior.
 - Use optimistic UI feedback while persistence completes safely.
 - Add unit tests for complete/undo behavior.
@@ -263,11 +276,11 @@ Planned work:
 
 Session outcome:
 
-- The dashboard loads two local routines.
+- Today loads two configured Activities from the local Routine run.
 - Complete and undo work after restart.
 - Completion data is stored as events rather than a single fragile UI flag.
 
-This is not the full recurrence or scoring engine. Use fixed seeded routines and a simple progress calculation for the validation slice.
+This is not the full Routine builder, recurrence engine, PVRD scoring engine, or end-of-run results flow. Use fixed seeded Activity configuration, required run dates, a fixed Goal target, and a simple progress calculation for the validation slice.
 
 ### Session 8 — Add meaningful motion, gestures, and accessibility
 
@@ -276,7 +289,8 @@ This is not the full recurrence or scoring engine. Use fixed seeded routines and
 Planned work:
 
 - Add a responsive check-off interaction.
-- Add swipe behavior with a button/menu alternative.
+- Add start-to-end Complete/Done; after completion the same direction becomes Undo. Add the end-to-start Mute today action surface for the Routine Activity, with a visible button/menu alternative. Session 9 connects Mute today to real notification cancellation.
+- Keep completed items visible, sort them below incomplete items, and show an accessible bright motivational state with an icon and label.
 - Animate progress and show a brief encouraging completion response.
 - Add haptic feedback where supported.
 - Implement reduced-motion behavior.
@@ -288,6 +302,7 @@ Session outcome:
 
 - The core interaction demonstrates why Flutter was chosen.
 - All actions remain usable without gestures or animation.
+- Swipe direction, Undo, the Mute today action surface, completed-item ordering, and non-color completion cues match the approved behavior. Functional notification cancellation remains a Session 9 outcome.
 - Motion communicates state and success rather than adding decoration only.
 - There is recorded profile-mode evidence rather than a debug-mode impression.
 
@@ -300,6 +315,7 @@ Planned work:
 - Evaluate and add the approved local-notification package.
 - Implement permission handling and one scheduled routine reminder.
 - Use a stable notification identifier for update/cancel behavior.
+- Connect Mute today so it cancels only the remaining notification for the current Activity occurrence without changing scoring or future reminders.
 - Test schedule, receive, update, and cancel on Android.
 - Configure and test iOS only when macOS/Xcode and a suitable simulator/device are available.
 - Document platform limitations and remaining production-hardening work.
@@ -307,6 +323,7 @@ Planned work:
 Session outcome:
 
 - One reminder can be scheduled and canceled on the locally testable platform.
+- Mute today cancels the current occurrence through the accepted swipe or visible alternative and leaves future reminders unchanged.
 - Notification code is behind a small application-facing service.
 - iOS status is explicitly recorded as passed, failed, or blocked by environment.
 
@@ -343,8 +360,8 @@ The migration slice is complete when:
 
 - The Flutter application launches and retains local data.
 - Activity parity works.
-- Dashboard complete/undo works after restart.
-- Gesture, non-gesture, motion, and reduced-motion paths work.
+- Today complete/undo works after restart.
+- Accepted Complete/Undo and Mute today gestures, visible alternatives, completed-item ordering, motion, and reduced-motion paths work.
 - At least Android notification scheduling and cancellation are demonstrated.
 - Physical-device profile testing has been performed on Android when a device is available.
 - iOS has a verified result or a clearly documented environment blocker.
